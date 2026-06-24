@@ -24,8 +24,8 @@ from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from meals.models import Meal
-from meals.forms import MealForm
+from meal.models import Meal
+from meal.forms import MealForm
 # Create your views here.
 
 
