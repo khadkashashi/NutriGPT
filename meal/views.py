@@ -41,7 +41,7 @@ class MealDeleteView(DeleteView):
 class IngredientListView(ListView):
     model = Ingredient
     paginate_by = 10
-    template_name = "ingredient/ingredient_list.html"
+    template_name = "ingredient/ingredients_list.html"
 
 
 class IngredientCreateView(CreateView):
