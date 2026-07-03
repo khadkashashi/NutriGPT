@@ -1,0 +1,107 @@
+{% extends "home/base.html" %}
+
+{% block title %}User Subscriptions{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow p-6">
+
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">User Subscriptions</h1>
+
+        <a href=""
+           class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            Add Subscription
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-3 text-left border">#</th>
+                    <th class="p-3 text-left border">User</th>
+                    <th class="p-3 text-left border">Plan</th>
+                    <th class="p-3 text-left border">Price</th>
+                    <th class="p-3 text-left border">Start Date</th>
+                    <th class="p-3 text-left border">End Date</th>
+                    <th class="p-3 text-left border">Status</th>
+                    <th class="p-3 text-center border">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for subscription in user_sub %}
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3 border">
+                        {{ forloop.counter }}
+                    </td>
+
+                    <td class="p-3 border font-medium">
+                        {{ subscription.user }}
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ subscription.plan }}
+                    </td>
+                     <td class="p-3 border">
+                        {{ subscription.plan.price }}
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ subscription.start_date }}
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ subscription.end_date }}
+                    </td>
+
+                    <td class="p-3 border">
+                        <span class="px-2 py-1 rounded-full text-xs font-semibold
+                            {% if subscription.status == 'Active' %}
+                                bg-green-100 text-green-700
+                            {% elif subscription.status == 'Pending' %}
+                                bg-yellow-100 text-yellow-700
+                            {% elif subscription.status == 'Expired' %}
+                                bg-red-100 text-red-700
+                            {% elif subscription.status == 'Cancelled' %}
+                                bg-gray-200 text-gray-700
+                            {% elif subscription.status == 'Paused' %}
+                                bg-blue-100 text-blue-700
+                            {% endif %}">
+                            {{ subscription.get_status_display }}
+                        </span>
+                    </td>
+
+                    <td class="p-3 border text-center">
+                        <div class="flex justify-center gap-3">
+                            <a href="{% url 'pay' subscription.id %}"
+                               class="text-green-600 hover:underline">
+                                Pay
+                            </a>
+                            <a href=""
+                               class="text-blue-600 hover:underline">
+                                Edit
+                            </a>
+
+                            <a href=""
+                               class="text-red-600 hover:underline"
+                               onclick="return confirm('Are you sure you want to delete this subscription?')">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7"
+                        class="text-center p-6 text-gray-500">
+                        No subscriptions found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

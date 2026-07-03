@@ -1,0 +1,31 @@
+import requests
+import json
+
+def get_payment_url(**kwargs):
+    url = "https://dev.khalti.com/api/v2/epayment/initiate/"
+    key = "2a3482ac3a0f459a9c64567546ea166b"
+    payload = {
+        "return_url": "https://example.com/payment/",
+        "website_url": "http://www.msskillup.com",
+        "amount": kwargs.get('amount'),
+        "purchase_order_id": kwargs.get('purchase_order_id'),
+        "purchase_order_name": kwargs.get('purchase_order_name'),
+        "customer_info": {
+            "name": kwargs.get('name'),
+            "email":kwargs.get('email','test@msskillup.com'),
+            "phone": "9800000123",
+        },
+        "product_details": [
+            {
+                "identity": kwargs.get('product_id',1),
+                "name": "Khalti logo",
+                "total_price": kwargs.get('unit_price')*kwargs.get('quantity'),
+                "quantity": kwargs.get('quantity'),
+                "unit_price": kwargs.get('unit_price',0),
+            }
+        ],
+    }
+    print(payload)
+    headersList = {"Accept": "*/*", "Content-Type": "application/json", "Authorization":f"Key {key} "}
+    r = requests.post(url=url, headers=headersList, data=json.dumps(payload))
+    return r.json()

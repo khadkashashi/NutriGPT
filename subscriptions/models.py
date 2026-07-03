@@ -1,7 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
-
+from django.db import models
 
 
 class SubscriptionPlan(models.Model):
@@ -10,7 +8,8 @@ class SubscriptionPlan(models.Model):
     duration_days = models.PositiveIntegerField(help_text="Duration in days")
     description = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(default=timezone.now)  
+
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -21,53 +20,54 @@ class SubscriptionPlan(models.Model):
 
 
 class UserSubscriptionStatus(models.TextChoices):
-    ACTIVE =    "Active",    
-    EXPIRED =   "Expired",   
-    CANCELLED = "Cancelled", 
-    PENDING =   "Pending",   
-    PAUSED =    "Paused"    
+    ACTIVE =  "Active"
+    EXPIRED ="Expired"
+    CANCELLED= "Cancelled"
+    PENDING= "Pending"
+    PAUSED = "Paused"
+
+
 class UserSubscription(models.Model):
 
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="subscriptions"
     )
     plan = models.ForeignKey(
-        SubscriptionPlan, on_delete=models.CASCADE, related_name="subscriptions"
+        SubscriptionPlan, on_delete=models.CASCADE, related_name="user_subscriptions"
     )
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=20, choices=UserSubscriptionStatus.choices, default=UserSubscriptionStatus.PENDING)
 
     def __str__(self):
-        return f"{self.user} - {self.plan} ({self.status})"
+        return f"{self.user.username} - {self.plan} ({self.status})"
 
     class Meta:
-        db_table = "user_subscriptions"
+        db_table = "user_subscription"
 
 
 class PaymentMethod(models.TextChoices):
-    ESEWA =         "eSewa",        
-    KHALTI =        "Khalti",        
-    BANK_TRANSFER = "Bank Transfer", 
-    CASH =          "Cash"        
+    ESEWA = "esewa"
+    KHALTI = "khalti"
+    BANK_TRANSFER = "bank_transfer"
+    CASH = "cash"
 
 
 class PaymentStatus(models.TextChoices):
-    PENDING = "Pending", 
-    SUCCESS = "Success",
-    FAILED =  "Failed", 
+    PENDING = "pending"
+    SUCCESS = "success"
+    FAILED = "failed"
 
 class Payment(models.Model):
-   
     subscription = models.ForeignKey(
         UserSubscription, on_delete=models.CASCADE, related_name="payments"
     )
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     payment_method = models.CharField(max_length=20, choices=PaymentMethod.choices, default=PaymentMethod.KHALTI)
     transaction_id = models.CharField(max_length=100, unique=True)
-    status = models.CharField(max_length=20, choices= PaymentStatus.choices, default= PaymentStatus.PENDING)
+    status = models.CharField(max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PENDING)
 
-    def __str__(self):
+    def str(self):
         return f"{self.transaction_id} - {self.status}"
 
     class Meta:
