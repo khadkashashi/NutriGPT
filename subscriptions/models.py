@@ -25,6 +25,7 @@ class UserSubscriptionStatus(models.TextChoices):
     CANCELLED= "Cancelled"
     PENDING= "Pending"
     PAUSED = "Paused"
+    FAILED = "Failed"
 
 
 class UserSubscription(models.Model):
@@ -64,8 +65,9 @@ class Payment(models.Model):
     )
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     payment_method = models.CharField(max_length=20, choices=PaymentMethod.choices, default=PaymentMethod.KHALTI)
-    transaction_id = models.CharField(max_length=100, unique=True)
+    transaction_id = models.CharField(max_length=100, null=True,blank=True)
     status = models.CharField(max_length=20, choices=PaymentStatus.choices, default=PaymentStatus.PENDING)
+    pidx = models.CharField(max_length=50, null=True, blank=True)
 
     def str(self):
         return f"{self.transaction_id} - {self.status}"

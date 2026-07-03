@@ -91,6 +91,7 @@ class PaymentAdmin(admin.ModelAdmin):
         "amount",
         "payment_method",
         "transaction_id",
+        "pidx",
         "status",
     )
     list_filter = (
@@ -117,7 +118,9 @@ class PaymentAdmin(admin.ModelAdmin):
                     "amount",
                     "payment_method",
                     "transaction_id",
+                    "pidx",
                     "status",
+
                 )
             },
         ),

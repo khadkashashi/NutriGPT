@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Status</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+<div class="w-full max-w-lg bg-white shadow-lg rounded-xl p-8">
+
+    <h2 class="text-2xl font-bold text-center mb-6">
+        Payment Status
+    </h2>
+
+    {% if payment.status == "success" %}
+    <div class="mb-6 rounded-lg border border-green-300 bg-green-50 px-4 py-3">
+        <div class="flex items-start">
+            <svg class="w-5 h-5 text-green-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.172 7.707 8.879a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"/>
+            </svg>
+
+            <div>
+                <h3 class="font-semibold text-green-800">Payment Successful</h3>
+                <p class="text-green-700 text-sm">
+                    Your payment has been completed successfully.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="mb-6 rounded-lg border border-red-300 bg-red-50 px-4 py-3">
+        <div class="flex items-start">
+            <svg class="w-5 h-5 text-red-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                    d="M18 10A8 8 0 114 2a8 8 0 0114 8zm-8-4a1 1 0 00-1 1v4a1 1 0 102 0V7a1 1 0 00-1-1zm0 8a1.25 1.25 0 100 2.5A1.25 1.25 0 0010 14z"
+                    clip-rule="evenodd"/>
+            </svg>
+
+            <div>
+                <h3 class="font-semibold text-red-800">Payment Failed</h3>
+                <p class="text-red-700 text-sm">
+                    Your payment could not be completed.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="border rounded-lg divide-y">
+
+        <div class="flex justify-between p-3">
+            <span class="font-medium text-gray-600">Subscription</span>
+            <span>{{ payment.subscription.plan }}</span>
+        </div>
+
+        <div class="flex justify-between p-3">
+            <span class="font-medium text-gray-600">Amount</span>
+            <span>Rs. {{ payment.amount }}</span>
+        </div>
+
+        <div class="flex justify-between p-3">
+            <span class="font-medium text-gray-600">Payment Method</span>
+            <span>{{ payment.get_payment_method_display }}</span>
+        </div>
+
+        <div class="flex justify-between p-3">
+            <span class="font-medium text-gray-600">Status</span>
+            <span>{{ payment.get_status_display }}</span>
+        </div>
+
+        <div class="flex justify-between p-3">
+            <span class="font-medium text-gray-600">Transaction ID</span>
+            <span>{{ payment.transaction_id|default:"N/A" }}</span>
+        </div>
+
+        <div class="flex justify-between p-3">
+            <span class="font-medium text-gray-600">PIDX</span>
+            <span>{{ payment.pidx|default:"N/A" }}</span>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
