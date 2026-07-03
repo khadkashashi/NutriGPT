@@ -1,26 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NutriGPT - Delete Ingredient</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 500px; margin: 80px auto; padding: 0 20px; background: #f5f5f5; text-align: center; }
-        .card { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-        h2 { color: #e63946; }
-        p { color: #555; }
-        .btn-delete { background: #e63946; color: white; padding: 10px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; }
-        .btn-cancel { display: inline-block; margin-left: 10px; background: #aaa; color: white; padding: 10px 25px; border-radius: 8px; text-decoration: none; font-size: 15px; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h2>⚠️ Confirm Delete</h2>
-        <p>Are you sure you want to delete the ingredient <strong>{{ object.ingredient.name }}</strong> from <strong>{{ object.meal.name }}</strong>?</p>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn-delete">Yes, Delete</button>
-            <a href="/meal/ingredients/" class="btn-cancel">Cancel</a>
-        </form>
-    </div>
-</body>
-</html>
+{% extends "home/base.html" %}
+
+{% block content %}
+
+<div class="bg-white rounded-lg shadow p-6">
+
+    <h2 class="text-xl font-bold mb-4">
+        Delete Ingredient
+    </h2>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ object.name }}</strong>?
+    </p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <button type="submit"
+                class="bg-red-600 text-white px-4 py-2 rounded">
+            Delete
+        </button>
+
+        <a href="{% url 'ingredient-list' %}"
+           class="ml-2 border px-4 py-2 rounded">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

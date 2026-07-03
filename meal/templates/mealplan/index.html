@@ -1,0 +1,144 @@
+{% extends "home/base.html" %}
+
+{% block title %}Meal Plans{% endblock %}
+
+{% block content %}
+
+<div class="bg-white rounded-lg shadow p-6">
+
+```
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Meal Plans</h1>
+
+    <a href="{% url 'mealplan-create' %}"
+       class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        Add Meal Plan
+    </a>
+</div>
+
+<div class="overflow-x-auto">
+    <table class="w-full border border-gray-200">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="p-3 border text-left">#</th>
+                <th class="p-3 border text-left">Title</th>
+                <th class="p-3 border text-left">User</th>
+                <th class="p-3 border text-left">Start Date</th>
+                <th class="p-3 border text-left">End Date</th>
+                <th class="p-3 border text-left">AI Generated</th>
+                <th class="p-3 border text-left">Created At</th>
+                <th class="p-3 border text-center">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for plan in mealPlan %}
+            <tr class="hover:bg-gray-50">
+
+                <td class="p-3 border">
+                    {{ page_obj.start_index|add:forloop.counter0 }}
+                </td>
+
+                <td class="p-3 border font-medium">
+                    {{ plan.title|default:"-" }}
+                </td>
+
+                <td class="p-3 border">
+                    {{ plan.user.username }}
+                </td>
+
+                <td class="p-3 border">
+                    {{ plan.start_date }}
+                </td>
+
+                <td class="p-3 border">
+                    {{ plan.end_date }}
+                </td>
+
+                <td class="p-3 border">
+                    {% if plan.generated_by_ai %}
+                        <span class="text-green-600 font-semibold">Yes</span>
+                    {% else %}
+                        <span class="text-red-600 font-semibold">No</span>
+                    {% endif %}
+                </td>
+
+                <td class="p-3 border">
+                    {{ plan.created_at|date:"M d, Y" }}
+                </td>
+
+                <td class="p-3 border">
+                    <div class="flex justify-center gap-4">
+
+                        <a href="{% url 'mealplan-update' plan.id %}"
+                           class="text-blue-600 hover:underline">
+                            Edit
+                        </a>
+
+                        <a href="{% url 'mealplan-delete' plan.id %}"
+                           class="text-red-600 hover:underline">
+                            Delete
+                        </a>
+
+                    </div>
+                </td>
+
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="8"
+                    class="text-center p-6 text-gray-500">
+                    No meal plans found.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+<div class="flex flex-wrap justify-between items-center mt-6 gap-4">
+
+    <div class="text-sm text-gray-600">
+        Showing {{ page_obj.start_index }} to {{ page_obj.end_index }}
+        of {{ page_obj.paginator.count }} meal plans
+    </div>
+
+    <div class="flex items-center gap-2">
+
+        {% if page_obj.has_previous %}
+            <a href="?page=1"
+               class="px-3 py-2 border rounded hover:bg-gray-100">
+                First
+            </a>
+
+            <a href="?page={{ page_obj.previous_page_number }}"
+               class="px-3 py-2 border rounded hover:bg-gray-100">
+                Previous
+            </a>
+        {% endif %}
+
+        <span class="px-4 py-2 bg-blue-600 text-white rounded">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"
+               class="px-3 py-2 border rounded hover:bg-gray-100">
+                Next
+            </a>
+
+            <a href="?page={{ page_obj.paginator.num_pages }}"
+               class="px-3 py-2 border rounded hover:bg-gray-100">
+                Last
+            </a>
+        {% endif %}
+
+    </div>
+</div>
+{% endif %}
+```
+
+</div>
+{% endblock %}

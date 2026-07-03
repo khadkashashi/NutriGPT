@@ -1,0 +1,32 @@
+{% extends "home/base.html" %}
+
+{% block title %}Update Meal Plan{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white shadow rounded-lg p-6">
+
+    <h1 class="text-2xl font-bold mb-6">
+        Update Meal Plan
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{form.as_p}}
+
+        <div class="mt-6 flex gap-3">
+            <button type="submit"
+                class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+                Update
+            </button>
+
+            <a href=""
+                class="bg-gray-500 text-white px-5 py-2 rounded hover:bg-gray-600">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

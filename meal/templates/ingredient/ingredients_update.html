@@ -1,39 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NutriGPT - Update Ingredient</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; background: #f5f5f5; }
-        h1 { color: #2d6a4f; }
-        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-        label { display: block; margin-top: 15px; font-weight: bold; color: #444; }
-        input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .btn-submit { margin-top: 20px; background: #f0a500; color: white; padding: 10px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; }
-        .btn-submit:hover { background: #c47d00; }
-        .back { color: #2d6a4f; text-decoration: none; font-size: 14px; }
-        .errorlist { color: red; font-size: 13px; margin: 4px 0 0; padding: 0; list-style: none; }
-    </style>
-</head>
-<body>
-    <a href="/meal/ingredients/" class="back">← Back to Ingredients</a>
-    <h1>Update Meal Ingredient</h1>
-    <div class="card">
-        <form method="post">
-            {% csrf_token %}
-            {% for field in form %}
-                <label>{{ field.label }}</label>
-                {{ field }}
-                {% if field.errors %}
-                    <ul class="errorlist">
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endfor %}
-            <button type="submit" class="btn-submit">Update</button>
-        </form>
-    </div>
-</body>
-</html>
+{% extends "home/base.html" %}
+
+{% block content %}
+
+<div class="bg-white rounded-lg shadow p-6">
+
+    <h1 class="text-2xl font-bold mb-6">
+        Update Ingredient
+    </h1>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit"
+                class="bg-green-600 text-white px-4 py-2 rounded">
+            Update
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

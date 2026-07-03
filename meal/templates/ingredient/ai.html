@@ -1,1 +1,77 @@
 {% extends "home/base.html" %}
+{% block content %}
+<div class="bg-white rounded-lg shadow p-6">
+
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Ingredients</h1>
+
+        <a href="{% url 'ai_create' %}"
+           class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            Add Ingredient
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="p-3 text-left border">#</th>
+                    <th class="p-3 text-left border">Name</th>
+                    <th class="p-3 text-left border">Unit</th>
+                    <th class="p-3 text-left border">Calories</th>
+                    <th class="p-3 text-left border">Protein</th>
+                    <th class="p-3 text-left border">Carbs</th>
+                    <th class="p-3 text-left border">Fat</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for ingredient in data %}
+                <tr class="hover:bg-gray-50">
+
+                    <td class="p-3 border">
+                        {{ forloop.counter0 }}
+                    </td>
+
+                    <td class="p-3 border font-medium">
+                        {{ ingredient.name }}
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ ingredient.unit|default:"-" }}
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ ingredient.calories_per_100g }}
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ ingredient.protein_per_100g }} g
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ ingredient.carbs_per_100g }} g
+                    </td>
+
+                    <td class="p-3 border">
+                        {{ ingredient.fat_per_100g }} g
+                    </td>
+
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8"
+                        class="text-center p-6 text-gray-500">
+                        No ingredients found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+{% endblock %}

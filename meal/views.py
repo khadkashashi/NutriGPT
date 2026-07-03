@@ -47,20 +47,20 @@ class IngredientListView(ListView):
 class IngredientCreateView(CreateView):
     model = Ingredient
     form_class = IngredientForm
-    template_name = "ingredient/create.html"
+    template_name = "ingredient/ingredients_create.html"
     success_url = "/meal/ingredients/"
 
 
 class IngredientUpdateView(UpdateView):
     model = Ingredient
     form_class = IngredientForm
-    template_name = "ingredient/update.html"
+    template_name = "ingredient/ingredients_update.html"
     success_url = "/meal/ingredients/"
 
 
 class IngredientDeleteView(DeleteView):
     model = Ingredient
-    template_name = "ingredient/delete.html"
+    template_name = "ingredient/ingredients_delete.html"
     success_url = "/meal/ingredients/"
 
 

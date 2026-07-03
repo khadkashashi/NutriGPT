@@ -21,6 +21,7 @@ from home.views import dashboard
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('meal/', include('meal.urls')),
+    path('user_sub/', include('subscriptions.urls')),
+
     path('dasbhoard',dashboard, name="dashboard")
-   
 ]
