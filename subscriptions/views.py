@@ -9,6 +9,7 @@ from subscriptions.models import (
     PaymentStatus,
 )
 from subscriptions.service import get_payment_url, lookup_khalti_api
+from datetime import datetime, timedelta,date
 
 # Create your views here.
 
@@ -62,11 +63,18 @@ def callback(request):
     if result['status'] == "Completed":
         payment.status = PaymentStatus.SUCCESS
         payment.transaction_id = data['transaction_id']
+        if user_sub.status == UserSubscriptionStatus.ACTIVE:
+            user_sub.end_date = user_sub.end_date + timedelta(days=user_sub.plan.duration_days)
+        else:
+            user_sub.start_date = date.today()
+            user_sub.end_date = date.today() + timedelta(days=user_sub.plan.duration_days)
         user_sub.status = UserSubscriptionStatus.ACTIVE
+
     else:
         payment.status = PaymentStatus.FAILED
-        user_sub.status = UserSubscriptionStatus.FAILED
-    print(payment)
+        if user_sub.status != UserSubscriptionStatus.ACTIVE:
+            user_sub.status = UserSubscriptionStatus.FAILED
+
     payment.save()
     user_sub.save()
 
