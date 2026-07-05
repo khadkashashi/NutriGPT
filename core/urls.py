@@ -23,5 +23,8 @@ urlpatterns = [
     path('meal/', include('meal.urls')),
     path('user_sub/', include('subscriptions.urls')),
 
-    path('dasbhoard',dashboard, name="dashboard")
+    path('dasbhoard',dashboard, name="dashboard"),
+
+    #api user
+    path('api/meal/', include('meal.api.urls'))
 ]
