@@ -37,3 +37,19 @@ def meal_create(request):
         },status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['POST'])
+def ingredient_create(request):
+    data=request.data
+    serialier=IngredientSerializer(data=data)
+    if serialier.is_valid():
+        serialier.save()
+        return Response({
+            "message":"ingredient created successfully",
+            "data":serialier.data
+        }, status.HTTP_201_CREATED)
+    else:
+        return Response(serialier.errors,status.HTTP_400_BAD_REQUEST)
+
+        
