@@ -3,7 +3,7 @@ from meal.models import Ingredient, Meal, MealIngredients
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
+from rest_framework import status
 @api_view(['GET'])
 def meal_list(request):
     data = Meal.objects.all()
@@ -19,6 +19,21 @@ def ingredient_list(request):
 
 @api_view(['GET'])
 def mealingredinet_list(request):
-    data = MealIngredients
+    data = MealIngredients.objects.all()
     serializer = MealIngredientsSerializer(data, many=True)
     return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+def meal_create(request):
+    data = request.data
+    serializer = MealSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({
+            "message":"meal created successfully",
+            "data":serializer.data
+        },status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)

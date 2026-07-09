@@ -16,7 +16,22 @@ class IngredientSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# class MealIngredientsSerializer(serializers.ModelSerializer):
+#     meal = MealSerializer(read_only=True)
+#     ingredient = IngredientSerializer(read_only=True)
+#     class Meta:
+#         model = MealIngredients
+#         fields = "__all__"
+
+
 class MealIngredientsSerializer(serializers.ModelSerializer):
+    ingredient = IngredientSerializer(read_only=True)
+    
     class Meta:
         model = MealIngredients
         fields = "__all__"
+
+    def to_representation(self, instance):
+        data =  super().to_representation(instance)
+        data['meal']=f'{instance.meal.name}-{instance.meal.meal_type}'
+        return data
