@@ -1,5 +1,5 @@
 from django.urls import path
-from meal.api.views import ingredient_list, meal_list, mealingredinet_list, meal_create, ingredient_create, meal_delete, meal_update, IngredientView
+from meal.api.views import ingredient_list, meal_list, mealingredinet_list, meal_create, ingredient_create, meal_delete, meal_update, IngredientView,IngredientAction
 
 urlpatterns = [
     path('', meal_list),
@@ -10,5 +10,6 @@ urlpatterns = [
     path('meal-update/<int:id>', meal_update),
     path('meal-delete/<int:id>', meal_delete),
     path('ingredient',IngredientView.as_view()),
+     path('ingredient-action/<int:id>',IngredientAction.as_view()),
 
 ]

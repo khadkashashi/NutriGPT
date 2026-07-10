@@ -99,3 +99,37 @@ class IngredientView(GenericAPIView):
             },status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)
+        
+
+
+class IngredientAction(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset = Ingredient
+    serializer_class =IngredientSerializer
+
+    def get(self, request, id):
+        data = Ingredient.objects.get(id=id)
+        serializer = IngredientSerializer(data, many=False)
+        #  data=self.get_object_or_400(Ingredient, id=id)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        ingredient=Ingredient.objects.get(id=id)
+      
+        data=request.data
+        serializer=IngredientSerializer(ingredient,data=data)
+        if serializer.is_valid():
+         serializer.save()
+         return Response({
+            "mesaage":"ingredient update successfully"
+        }, status.HTTP_200_OK )
+        else:
+         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+    
+
+    def delete(self, request, id):
+        ingredient = Ingredient.objects.filter(id=id)
+        ingredient.delete()
+        return Response({
+        "message":"Meal Deleted Successfully"
+    }, status.HTTP_204_NO_CONTENT)
