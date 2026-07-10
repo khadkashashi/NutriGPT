@@ -1,6 +1,7 @@
 from meal.api.serializers import IngredientSerializer, MealIngredientsSerializer, MealSerializer
 from meal.models import Ingredient, Meal, MealIngredients
-
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -73,3 +74,28 @@ def meal_delete(request, id):
     return Response({
         "message":"Meal Deleted Successfully"
     }, status.HTTP_204_NO_CONTENT)
+
+
+
+class IngredientView(GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    queryset = Ingredient
+    serializer_class =IngredientSerializer
+
+
+    def get(self, request):
+        data = Ingredient.objects.all()
+        serializer = IngredientSerializer(data, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        data = request.data
+        serializer = IngredientSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "message":"Ingredient created successfully",
+                "data":serializer.data
+            },status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)
