@@ -52,4 +52,24 @@ def ingredient_create(request):
     else:
         return Response(serialier.errors,status.HTTP_400_BAD_REQUEST)
 
-        
+
+@api_view(['PUT'])
+def meal_update(request, id):
+    meal=Meal.objects.get(id=id)
+    data=request.data
+    serializer=MealSerializer(meal,data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({
+            "mesaage":"meal update successfully"
+        }, status.HTTP_200_OK )
+    else:
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE'])
+def meal_delete(request, id):
+    meal = Meal.objects.filter(id=id)
+    meal.delete()
+    return Response({
+        "message":"Meal Deleted Successfully"
+    }, status.HTTP_204_NO_CONTENT)
