@@ -1,5 +1,5 @@
-from meal.api.serializers import IngredientSerializer, MealIngredientsSerializer, MealSerializer
-from meal.models import Ingredient, Meal, MealIngredients
+from meal.api.serializers import IngredientSerializer, MealIngredientsSerializer, MealSerializer,MealPlanSerializer
+from meal.models import Ingredient, Meal, MealIngredients, MealPlan
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,6 +11,11 @@ def meal_list(request):
     serializer = MealSerializer(data, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def meal_plan(request):
+    data=MealPlan.obecta.all()
+    serializer= MealPlanSerializer(data,many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def ingredient_list(request):
@@ -38,7 +43,19 @@ def meal_create(request):
         },status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)
-    
+
+@api_view(['POST'])
+def MealPlan_create(request):
+    data=request.data
+    serializer=MealPlanSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({
+            "message":"meaplplan creates sucess",
+            "data": serializer.data
+        }, status.HTTP_201_CREATED)
+    else:
+     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def ingredient_create(request):
