@@ -5,6 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from drf_spectacular.utils import extend_schema
+from django.shortcuts import get_object_or_404
+
 @api_view(['GET'])
 def meal_list(request):
     data = Meal.objects.all()
@@ -17,6 +20,7 @@ def meal_plan(request):
     serializer= MealPlanSerializer(data,many=True)
     return Response(serializer.data)
 
+@extend_schema(tags=["Ingredient-Func"], deprecated=True,summary="get all list of ingredient")
 @api_view(['GET'])
 def ingredient_list(request):
     data = Ingredient.objects.all()
@@ -93,18 +97,20 @@ def meal_delete(request, id):
     }, status.HTTP_204_NO_CONTENT)
 
 
+@extend_schema(tags=["Ingredient"])
 
 class IngredientView(GenericAPIView):
     # permission_classes = [IsAuthenticated]
     queryset = Ingredient
     serializer_class =IngredientSerializer
 
-
+    @extend_schema(tags=["Ingredient"])
     def get(self, request):
         data = Ingredient.objects.all()
         serializer = IngredientSerializer(data, many=True)
         return Response(serializer.data)
-
+    
+    @extend_schema(tags=["Ingredient"])
     def post(self, request):
         data = request.data
         serializer = IngredientSerializer(data=data)
@@ -150,3 +156,21 @@ class IngredientAction(GenericAPIView):
         return Response({
         "message":"Meal Deleted Successfully"
     }, status.HTTP_204_NO_CONTENT)
+
+    @extend_schema(tags=["Ingredient"])
+
+    def get(self, request, id):
+        # data = Ingredient.objects.get(id=id)
+        data = get_object_or_404(Ingredient, id=id)
+        serializer = IngredientSerializer(data, many=False)
+        return Response(serializer.data)
+
+    @extend_schema(tags=["Ingredient"], summary="Udpdate required field ", description="this is put request for updating ingreient")
+    def put(self, request, id):
+        pass
+
+    @extend_schema(tags=["Ingredient"])
+    def delete(self, request, id):
+        pass
+
+
