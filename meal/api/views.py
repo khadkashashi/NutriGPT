@@ -7,7 +7,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from drf_spectacular.utils import extend_schema
 from django.shortcuts import get_object_or_404
-
+from meal.service import generate_json_data
+import json
 @api_view(['GET'])
 def meal_list(request):
     data = Meal.objects.all()
@@ -173,4 +174,7 @@ class IngredientAction(GenericAPIView):
     def delete(self, request, id):
         pass
 
-
+@extend_schema(tags=["AI"])
+@api_view (['GET'])
+def generate_nutri_ai(request):
+    return Response({"ai_data": json.loads(generate_json_data())});

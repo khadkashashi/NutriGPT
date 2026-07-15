@@ -1,5 +1,5 @@
 from django.urls import path
-from meal.api.views import ingredient_list, meal_list, mealingredinet_list, meal_create, ingredient_create, meal_delete, meal_update, IngredientView,IngredientAction,MealPlan_create
+from meal.api.views import ingredient_list, meal_list, mealingredinet_list, meal_create, ingredient_create, meal_delete, meal_update, IngredientView,IngredientAction,MealPlan_create,generate_nutri_ai
 
 urlpatterns = [
     path('', meal_list),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('ingredient',IngredientView.as_view()),
      path('ingredient-action/<int:id>',IngredientAction.as_view()),
     path('MealPlan-create',MealPlan_create),
+    path("ai-nutri",generate_nutri_ai,name="ai")
 
 ]
