@@ -9,9 +9,13 @@ from drf_spectacular.utils import extend_schema
 from django.shortcuts import get_object_or_404
 from meal.service import generate_json_data
 import json
+from meal.tasks import hello
+
+
 @api_view(['GET'])
 def meal_list(request):
     data = Meal.objects.all()
+    hello.delay()
     serializer = MealSerializer(data, many=True)
     return Response(serializer.data)
 
