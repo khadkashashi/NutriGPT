@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 CELERY_TIMEZONE = "Asia/Kathmandu"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-C
+
 CELERY_BEAT_SCHEDULE={
      'get_breakfast': {
         'task': 'home.tasks.get_breakfast_item',

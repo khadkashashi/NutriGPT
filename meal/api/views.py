@@ -225,5 +225,5 @@ class MealPlanAction(GenericAPIView):
 
 @extend_schema(tags=["AI"])
 @api_view(["GET"])
-def geneate_nutri_ai(request):
+def generate_nutri_ai(request):
     return Response({"ai_data": json.loads(generate_json_data())})

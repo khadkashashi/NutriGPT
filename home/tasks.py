@@ -1,6 +1,8 @@
 from meal.models import MealIngredients, MealType
 import random
-from home.models import TodayMeal,date
+from home.models import TodayMeal
+from datetime import date
+
 
 def get_breakfast_item():
     meal= MealIngredients.objects.filter(meal__meal_type=MealType.BREAKFAST)
