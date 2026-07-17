@@ -35,7 +35,7 @@ class Meal(models.Model):
     prepare_time = models.IntegerField(help_text="Enter time in minute")
 
     def __str__(self):
-        return self.name
+        return f'{self.name} - {self.meal_type}'
 
     class Meta:
         db_table = "meal"

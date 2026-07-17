@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 from datetime import timedelta
 from pathlib import Path
-
+from celery.schedules import crontab
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,6 +75,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 CELERY_TIMEZONE = "Asia/Kathmandu"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+C
+CELERY_BEAT_SCHEDULE={
+     'get_breakfast': {
+        'task': 'home.tasks.get_breakfast_item',
+        'schedule': crontab(hour=6,minute=0),
+    },
+}
 
 
 REST_FRAMEWORK = {

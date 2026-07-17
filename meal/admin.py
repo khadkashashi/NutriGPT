@@ -42,7 +42,7 @@ class MealAdmin(admin.ModelAdmin):
         "prepare_time",
     )
     list_filter = ("meal_type",)
-    search_fields = ("name",)
+    search_fields = ("name",'meal_type')
 
 
 @admin.register(MealPlanItems)
@@ -85,6 +85,7 @@ class MealIngredientsAdmin(admin.ModelAdmin):
         "ingredient",
         "quantity",
     )
+    autocomplete_fields = ['meal']
     search_fields = (
         "meal__name",
         "ingredient__name",
