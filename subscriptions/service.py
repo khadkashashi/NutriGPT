@@ -26,7 +26,6 @@ def get_payment_url(**kwargs):
             }
         ],
     }
-    print(payload)
     headersList = {"Accept": "*/*", "Content-Type": "application/json", "Authorization":f"Key {key} "}
     r = requests.post(url=url, headers=headersList, data=json.dumps(payload))
     return r.json()
